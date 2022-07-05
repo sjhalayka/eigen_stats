@@ -16,16 +16,20 @@ int main(void)
 	VectorXd position(12);
 	position << 3, 8, 2, 8, 5, 9, 4, 5, 2, 4, 2, 6;
 
-	// Make mean = 0, variance = 1
-	mean0_var1(efficacy);
-	mean0_var1(position);
+	VectorXd third_variable(12);
+	third_variable << 7, 1, 9, 8, 4, 1, 2, 7, 4, 6, 2, 1;
 
-	// Print out basic properties
-	cout << mean(efficacy) << endl;
-	cout << variance(efficacy) << endl;
-	cout << mean(position) << endl;
-	cout << variance(position) << endl;
-	cout << covariance(efficacy, position) << endl;
+	//mean0_var1(efficacy);
+	//mean0_var1(position);
+	//mean0_var1(third_variable);
+
+	vector<VectorXd> v{ efficacy, position, third_variable };
+
+	MatrixXd m(v.size(), v.size());
+	
+	m = get_var_covar_matrix(v);
+
+	cout << m << endl;
 
 	return 0;
 }

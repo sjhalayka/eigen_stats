@@ -79,3 +79,19 @@ float covariance(const VectorXd& src_x, const VectorXd& src_y)
 	return covariance;
 }
 
+MatrixXd get_var_covar_matrix(vector<VectorXd>& v)
+{
+	size_t v_size = v.size();
+
+	MatrixXd m(v_size, v_size);
+
+	for (size_t i = 0; i < v_size; i++)
+	{
+		m(i, i) = variance(v[i]);
+
+		for (size_t j = i + 1; j < v_size; j++)
+			m(j, i) = covariance(v[j], v[i]);
+	}
+
+	return m;
+}
