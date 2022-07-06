@@ -52,8 +52,12 @@ void normalize_mean0_var1(VectorXf &src)
 	}
 
 	// Normalize
-	for (long signed int i = 0; i < src.size(); i++)
-		src[i] /= max_val;
+
+	if (max_val != 0)
+	{
+		for (long signed int i = 0; i < src.size(); i++)
+			src[i] /= max_val;
+	}
 
 	// Mean 0
 	const float m = mean(src);
