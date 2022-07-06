@@ -19,11 +19,13 @@ int main(void)
 	VectorXd third_variable(12);
 	third_variable << 7, 1, 9, 8, 4, 1, 2, 7, 4, 6, 2, 1;
 
-	//mean0_var1(efficacy);
-	//mean0_var1(position);
-	//mean0_var1(third_variable);
 
-	vector<VectorXd> v{ efficacy, position, third_variable };
+	// Normalize, set mean to 0, and variance to 1
+	normalize_mean0_var1(efficacy);
+	normalize_mean0_var1(position);
+	normalize_mean0_var1(third_variable);
+
+	vector<VectorXd> v { efficacy, position, third_variable };
 
 	MatrixXd m(v.size(), v.size());
 	

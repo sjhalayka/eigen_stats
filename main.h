@@ -39,13 +39,29 @@ float variance(const VectorXd& src)
 	return x * x;
 }
 
-void mean0_var1(VectorXd &src)
+void normalize_mean0_var1(VectorXd &src)
 {
+	float max_val = 0;
+
+	for (long signed int i = 0; i < src.size(); i++)
+	{
+		float val = fabsf(static_cast<float>(src[i]));
+
+		if (val > max_val)
+			max_val = val;
+	}
+
+	// Normalize
+	for (long signed int i = 0; i < src.size(); i++)
+		src[i] /= max_val;
+
+	// Mean 0
 	float m = mean(src);
 
 	for (long signed int i = 0; i < src.size(); i++)
 		src[i] -= m;
 
+	// Variance 1
 	float v = variance(src);
 
 	for (long signed int i = 0; i < src.size(); i++)
