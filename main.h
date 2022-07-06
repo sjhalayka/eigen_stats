@@ -28,7 +28,7 @@ float standard_deviation(const VectorXf& src)
 		sq_diff += diff * diff;
 	}
 
-	sq_diff /= src.size();
+	sq_diff /= src.size() - 1;
 
 	return sqrt(sq_diff);
 }
@@ -78,7 +78,7 @@ float covariance(const VectorXf& src_x, const VectorXf& src_y)
 	for (long signed int i = 0; i < src_x.size(); i++)
 		covariance += (src_x[i] - x_mean) * (src_y[i] - y_mean);
 
-	covariance /= src_x.size();
+	covariance /= src_x.size() - 1;
 
 	return covariance;
 }
