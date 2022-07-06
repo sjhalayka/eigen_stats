@@ -30,7 +30,7 @@ float standard_deviation(const VectorXf& src)
 
 	sq_diff /= src.size() - 1;
 
-	return sqrt(sq_diff);
+	return sqrtf(sq_diff);
 }
 
 float variance(const VectorXf& src)
@@ -52,7 +52,6 @@ void normalize_mean0_var1(VectorXf &src)
 	}
 
 	// Normalize
-
 	if (max_val != 0)
 	{
 		for (long signed int i = 0; i < src.size(); i++)
@@ -67,9 +66,13 @@ void normalize_mean0_var1(VectorXf &src)
 
 	// Variance 1
 	const float v = variance(src);
-
-	for (long signed int i = 0; i < src.size(); i++)
-		src[i] /= sqrt(v);
+	const float sqrt_v = sqrtf(v);
+	
+	if (sqrt_v != 0)
+	{
+		for (long signed int i = 0; i < src.size(); i++)
+			src[i] /= sqrt_v;
+	}
 }
 
 float covariance(const VectorXf& src_x, const VectorXf& src_y)
