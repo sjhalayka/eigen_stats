@@ -18,7 +18,7 @@ float mean(const VectorXf& src)
 
 float standard_deviation(const VectorXf& src)
 {
-	float m = mean(src);
+	const float m = mean(src);
 
 	float sq_diff = 0;
 
@@ -35,7 +35,7 @@ float standard_deviation(const VectorXf& src)
 
 float variance(const VectorXf& src)
 {
-	float x = standard_deviation(src);
+	const float x = standard_deviation(src);
 	return x * x;
 }
 
@@ -56,13 +56,13 @@ void normalize_mean0_var1(VectorXf &src)
 		src[i] /= max_val;
 
 	// Mean 0
-	float m = mean(src);
+	const float m = mean(src);
 
 	for (long signed int i = 0; i < src.size(); i++)
 		src[i] -= m;
 
 	// Variance 1
-	float v = variance(src);
+	const float v = variance(src);
 
 	for (long signed int i = 0; i < src.size(); i++)
 		src[i] /= sqrt(v);
@@ -70,17 +70,8 @@ void normalize_mean0_var1(VectorXf &src)
 
 float covariance(const VectorXf& src_x, const VectorXf& src_y)
 {
-	float x_mean = 0;
-	float y_mean = 0;
-
-	for (long signed int i = 0; i < src_x.size(); i++)
-	{
-		x_mean += src_x[i];
-		y_mean += src_y[i];
-	}
-
-	x_mean /= src_x.size();
-	y_mean /= src_y.size();
+	float x_mean = mean(src_x);
+	float y_mean = mean(src_y);
 
 	float covariance = 0;
 
@@ -94,7 +85,7 @@ float covariance(const VectorXf& src_x, const VectorXf& src_y)
 
 MatrixXf get_var_covar_matrix(vector<VectorXf>& v)
 {
-	size_t v_size = v.size();
+	const size_t v_size = v.size();
 
 	MatrixXf m(v_size, v_size);
 
