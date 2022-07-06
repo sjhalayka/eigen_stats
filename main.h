@@ -4,19 +4,19 @@
 using namespace std;
 
 
-float mean(const VectorXd& src)
+float mean(const VectorXf& src)
 {
 	float m = 0;
 
 	for (long signed int i = 0; i < src.size(); i++)
-		m += static_cast<float>(src[i]);
+		m += src[i];
 
 	m /= src.size();
 
 	return m;
 }
 
-float standard_deviation(const VectorXd& src)
+float standard_deviation(const VectorXf& src)
 {
 	float m = mean(src);
 
@@ -24,7 +24,7 @@ float standard_deviation(const VectorXd& src)
 
 	for (long signed int i = 0; i < src.size(); i++)
 	{
-		float diff = static_cast<float>(src[i]) - m;
+		float diff = src[i] - m;
 		sq_diff += diff * diff;
 	}
 
@@ -33,19 +33,19 @@ float standard_deviation(const VectorXd& src)
 	return sqrt(sq_diff);
 }
 
-float variance(const VectorXd& src)
+float variance(const VectorXf& src)
 {
 	float x = standard_deviation(src);
 	return x * x;
 }
 
-void normalize_mean0_var1(VectorXd &src)
+void normalize_mean0_var1(VectorXf &src)
 {
 	float max_val = 0;
 
 	for (long signed int i = 0; i < src.size(); i++)
 	{
-		float val = fabsf(static_cast<float>(src[i]));
+		float val = fabsf(src[i]);
 
 		if (val > max_val)
 			max_val = val;
@@ -68,15 +68,15 @@ void normalize_mean0_var1(VectorXd &src)
 		src[i] /= sqrt(v);
 }
 
-float covariance(const VectorXd& src_x, const VectorXd& src_y)
+float covariance(const VectorXf& src_x, const VectorXf& src_y)
 {
 	float x_mean = 0;
 	float y_mean = 0;
 
 	for (long signed int i = 0; i < src_x.size(); i++)
 	{
-		x_mean += static_cast<float>(src_x[i]);
-		y_mean += static_cast<float>(src_y[i]);
+		x_mean += src_x[i];
+		y_mean += src_y[i];
 	}
 
 	x_mean /= src_x.size();
@@ -85,21 +85,18 @@ float covariance(const VectorXd& src_x, const VectorXd& src_y)
 	float covariance = 0;
 
 	for (long signed int i = 0; i < src_x.size(); i++)
-	{
-		float z = static_cast<float>(src_x[i]) - x_mean;
-		covariance += z * (static_cast<float>(src_y[i]) - y_mean);
-	}
+		covariance += (src_x[i] - x_mean) * (src_y[i] - y_mean);
 
 	covariance /= src_x.size();
 
 	return covariance;
 }
 
-MatrixXd get_var_covar_matrix(vector<VectorXd>& v)
+MatrixXf get_var_covar_matrix(vector<VectorXf>& v)
 {
 	size_t v_size = v.size();
 
-	MatrixXd m(v_size, v_size);
+	MatrixXf m(v_size, v_size);
 
 	for (size_t i = 0; i < v_size; i++)
 	{
