@@ -92,6 +92,7 @@ float covariance(const VectorXf& src_x, const VectorXf& src_y)
 
 MatrixXf get_var_covar_matrix(vector<VectorXf>& v)
 {
+	// Get number of variables
 	const size_t v_size = v.size();
 
 	MatrixXf m(v_size, v_size);
