@@ -46,7 +46,7 @@ void normalize(VectorXf& src)
 
 	for (long signed int i = 0; i < src.size(); i++)
 	{
-		float val = src[i];
+		const float val = src[i];
 
 		if (val > max_val)
 			max_val = val;
