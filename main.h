@@ -39,25 +39,32 @@ float variance(const VectorXf& src)
 	return x * x;
 }
 
-void normalize_mean0_var1(VectorXf &src)
+void normalize(VectorXf& src)
 {
-	float max_val = 0;
+	float max_val = -FLT_MAX;
+	float min_val = FLT_MAX;
 
 	for (long signed int i = 0; i < src.size(); i++)
 	{
-		float val = fabsf(src[i]);
+		float val = src[i];
 
 		if (val > max_val)
 			max_val = val;
+
+		if (val < min_val)
+			min_val = val;
 	}
 
-	// Normalize
-	if (max_val != 0)
+	// Normalize to [0, 1]
+	for (long signed int i = 0; i < src.size(); i++)
 	{
-		for (long signed int i = 0; i < src.size(); i++)
-			src[i] /= max_val;
+		src[i] -= min_val;
+		src[i] /= max_val - min_val;
 	}
+}
 
+void mean0_var1(VectorXf &src)	
+{
 	// Mean 0
 	const float m = mean(src);
 
@@ -68,11 +75,8 @@ void normalize_mean0_var1(VectorXf &src)
 	const float v = variance(src);
 	const float sqrt_v = sqrtf(v);
 	
-	if (sqrt_v != 0)
-	{
-		for (long signed int i = 0; i < src.size(); i++)
-			src[i] /= sqrt_v;
-	}
+	for (long signed int i = 0; i < src.size(); i++)
+		src[i] /= sqrt_v;
 }
 
 float covariance(const VectorXf& src_x, const VectorXf& src_y)
